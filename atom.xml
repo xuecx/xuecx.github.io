@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://520xnc.cn/blog/"/>
-  <updated>2019-01-31T03:49:16.069Z</updated>
+  <updated>2019-01-31T05:01:10.272Z</updated>
   <id>https://520xnc.cn/blog/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://520xnc.cn/blog/2019/01/31/java%E7%BA%BF%E4%B8%8A%E5%A0%86%E6%A0%88%E4%BF%A1%E6%81%AF%E6%9F%A5%E7%9C%8B/"/>
     <id>https://520xnc.cn/blog/2019/01/31/java线上堆栈信息查看/</id>
     <published>2019-01-31T02:40:48.000Z</published>
-    <updated>2019-01-31T03:49:16.069Z</updated>
+    <updated>2019-01-31T05:01:10.272Z</updated>
     
     <content type="html"><![CDATA[<h1 id="jstack查看java堆栈信息"><a href="#jstack查看java堆栈信息" class="headerlink" title="jstack查看java堆栈信息"></a>jstack查看java堆栈信息</h1><p>1、top 查看占用资源多的进程：pid</p><p>2、top -H -p pid  查看对应pid的线程，并找到占用资源多的线程</p><p>3、printf “%x\n” pid 转化为十六进制</p><p>4、在pid.stack中查找对应十六进制的信息</p><p>jstack -l pid &gt; pid.stack，将堆栈信息dump到pid.stack文件中</p>]]></content>
     
@@ -43,7 +43,11 @@
     
       <category term="mysql" scheme="https://520xnc.cn/blog/tags/mysql/"/>
     
-      <category term="redis" scheme="https://520xnc.cn/blog/tags/redis/"/>
+      <category term="redis，Mongodb" scheme="https://520xnc.cn/blog/tags/redis%EF%BC%8CMongodb/"/>
+    
+      <category term="oracle" scheme="https://520xnc.cn/blog/tags/oracle/"/>
+    
+      <category term="设计模式" scheme="https://520xnc.cn/blog/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
       <category term="其他" scheme="https://520xnc.cn/blog/tags/%E5%85%B6%E4%BB%96/"/>
     
