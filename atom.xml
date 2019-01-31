@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://520xnc.cn/blog/"/>
-  <updated>2019-01-31T08:08:47.839Z</updated>
+  <updated>2019-01-31T08:13:08.270Z</updated>
   <id>https://520xnc.cn/blog/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>&#39;git配置ssh免密登录&#39;</title>
+    <title>git配置ssh免密登录</title>
     <link href="https://520xnc.cn/blog/2019/01/31/git%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/"/>
     <id>https://520xnc.cn/blog/2019/01/31/git配置ssh免密登录/</id>
     <published>2019-01-31T08:04:05.000Z</published>
-    <updated>2019-01-31T08:08:47.839Z</updated>
+    <updated>2019-01-31T08:13:08.270Z</updated>
     
     <content type="html"><![CDATA[<h1 id="git-配置免密登录"><a href="#git-配置免密登录" class="headerlink" title="git 配置免密登录"></a>git 配置免密登录</h1><p>1、生成sshkey</p><blockquote><p>ssh-keygen -t rsa -C “<a href="mailto:xxx@xxx.com" target="_blank" rel="noopener">xxx@xxx.com</a>“</p></blockquote><p>注意：如果没有这个命令,找到git中的安装目录  \Git\usr\bin(C:\Program Files\Git\usr\bin)设置环境变量；或者直接在任何目录下右键 选择Git Bash here。</p><h6 id="其中需要输入的地方什么东不填，如果你填了密码，后面会多很多步骤"><a href="#其中需要输入的地方什么东不填，如果你填了密码，后面会多很多步骤" class="headerlink" title="其中需要输入的地方什么东不填，如果你填了密码，后面会多很多步骤"></a>其中需要输入的地方什么东不填，如果你填了密码，后面会多很多步骤</h6><p><img src="https://blog.520xnc.cn/img/ssh.png" alt="Image text"></p><p>2、点击github中我的头像边上的小三角&gt;setting&gt;ssh and GPG keys&gt;new ssh key<br>title可以随便填，key就是我们第一步生成的，key在~/.ssh/id_rsa.pub文件中，复制里面的内容放到key中</p><p>注意：不要加任意的字符，如空格或者回车</p><p>3、验证</p><blockquote><p>git clone <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:xuecx/xuecx.github.io.git</p></blockquote><p>如果能正常克隆代码 就说明成功了。</p><p>文章原始地址：<a href="https://blog.520xnc.cn/2019/01/31/git%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/" target="_blank" rel="noopener">https://blog.520xnc.cn/2019/01/31/git%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/</a></p>]]></content>
     
