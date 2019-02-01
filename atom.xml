@@ -5,9 +5,9 @@
   <subtitle>风雨百年6462</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://520xnc.cn/blog/"/>
+  <link href="https://blog.520xnc.cn/"/>
   <updated>2019-01-31T08:13:08.270Z</updated>
-  <id>https://520xnc.cn/blog/</id>
+  <id>https://blog.520xnc.cn/</id>
   
   <author>
     <name>xuecx</name>
@@ -18,12 +18,12 @@
   
   <entry>
     <title>git配置ssh免密登录</title>
-    <link href="https://520xnc.cn/blog/2019/01/31/git%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/"/>
-    <id>https://520xnc.cn/blog/2019/01/31/git配置ssh免密登录/</id>
+    <link href="https://blog.520xnc.cn/2019/01/31/git%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/"/>
+    <id>https://blog.520xnc.cn/2019/01/31/git配置ssh免密登录/</id>
     <published>2019-01-31T08:04:05.000Z</published>
     <updated>2019-01-31T08:13:08.270Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="git-配置免密登录"><a href="#git-配置免密登录" class="headerlink" title="git 配置免密登录"></a>git 配置免密登录</h1><p>1、生成sshkey</p><blockquote><p>ssh-keygen -t rsa -C “<a href="mailto:xxx@xxx.com" target="_blank" rel="noopener">xxx@xxx.com</a>“</p></blockquote><p>注意：如果没有这个命令,找到git中的安装目录  \Git\usr\bin(C:\Program Files\Git\usr\bin)设置环境变量；或者直接在任何目录下右键 选择Git Bash here。</p><h6 id="其中需要输入的地方什么东不填，如果你填了密码，后面会多很多步骤"><a href="#其中需要输入的地方什么东不填，如果你填了密码，后面会多很多步骤" class="headerlink" title="其中需要输入的地方什么东不填，如果你填了密码，后面会多很多步骤"></a>其中需要输入的地方什么东不填，如果你填了密码，后面会多很多步骤</h6><p><img src="https://blog.520xnc.cn/img/ssh.png" alt="Image text"></p><p>2、点击github中我的头像边上的小三角&gt;setting&gt;ssh and GPG keys&gt;new ssh key<br>title可以随便填，key就是我们第一步生成的，key在~/.ssh/id_rsa.pub文件中，复制里面的内容放到key中</p><p>注意：不要加任意的字符，如空格或者回车</p><p>3、验证</p><blockquote><p>git clone <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:xuecx/xuecx.github.io.git</p></blockquote><p>如果能正常克隆代码 就说明成功了。</p><p>文章原始地址：<a href="https://blog.520xnc.cn/2019/01/31/git%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/" target="_blank" rel="noopener">https://blog.520xnc.cn/2019/01/31/git%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/</a></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="git-配置免密登录"><a href="#git-配置免密登录" class="headerlink" title="git 配置免密登录"></a>git 配置免密登录</h1><p>1、生成sshkey</p><blockquote><p>ssh-keygen -t rsa -C “<a href="mailto:xxx@xxx.com" target="_blank" rel="noopener">xxx@xxx.com</a>“</p></blockquote><p>注意：如果没有这个命令,找到git中的安装目录  \Git\usr\bin(C:\Program Files\Git\usr\bin)设置环境变量；或者直接在任何目录下右键 选择Git Bash here。</p><h6 id="其中需要输入的地方什么东不填，如果你填了密码，后面会多很多步骤"><a href="#其中需要输入的地方什么东不填，如果你填了密码，后面会多很多步骤" class="headerlink" title="其中需要输入的地方什么东不填，如果你填了密码，后面会多很多步骤"></a>其中需要输入的地方什么东不填，如果你填了密码，后面会多很多步骤</h6><p><img src="https://blog.520xnc.cn/img/ssh.png" alt="Image text"></p><p>2、点击github中我的头像边上的小三角&gt;setting&gt;ssh and GPG keys&gt;new ssh key<br>title可以随便填，key就是我们第一步生成的，key在~/.ssh/id_rsa.pub文件中，复制里面的内容放到key中</p><p>注意：不要加任意的字符，如空格或者回车</p><p>3、验证</p><blockquote><p>git clone <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:xuecx/xuecx.github.io.git</p></blockquote><p>如果能正常克隆代码 就说明成功了。</p><p>文章原始地址：<a href="https://blog.520xnc.cn/2019/01/31/git%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/">https://blog.520xnc.cn/2019/01/31/git%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95/</a></p>]]></content>
     
     <summary type="html">
     
@@ -37,16 +37,16 @@
     </summary>
     
     
-      <category term="git" scheme="https://520xnc.cn/blog/tags/git/"/>
+      <category term="git" scheme="https://blog.520xnc.cn/tags/git/"/>
     
-      <category term="ssh" scheme="https://520xnc.cn/blog/tags/ssh/"/>
+      <category term="ssh" scheme="https://blog.520xnc.cn/tags/ssh/"/>
     
   </entry>
   
   <entry>
     <title>java线上堆栈信息查看</title>
-    <link href="https://520xnc.cn/blog/2019/01/31/java%E7%BA%BF%E4%B8%8A%E5%A0%86%E6%A0%88%E4%BF%A1%E6%81%AF%E6%9F%A5%E7%9C%8B/"/>
-    <id>https://520xnc.cn/blog/2019/01/31/java线上堆栈信息查看/</id>
+    <link href="https://blog.520xnc.cn/2019/01/31/java%E7%BA%BF%E4%B8%8A%E5%A0%86%E6%A0%88%E4%BF%A1%E6%81%AF%E6%9F%A5%E7%9C%8B/"/>
+    <id>https://blog.520xnc.cn/2019/01/31/java线上堆栈信息查看/</id>
     <published>2019-01-31T02:40:48.000Z</published>
     <updated>2019-01-31T05:07:46.600Z</updated>
     
@@ -62,30 +62,30 @@
     </summary>
     
     
-      <category term="Linux" scheme="https://520xnc.cn/blog/tags/Linux/"/>
+      <category term="Linux" scheme="https://blog.520xnc.cn/tags/Linux/"/>
     
-      <category term="堆栈" scheme="https://520xnc.cn/blog/tags/%E5%A0%86%E6%A0%88/"/>
+      <category term="堆栈" scheme="https://blog.520xnc.cn/tags/%E5%A0%86%E6%A0%88/"/>
     
-      <category term="java" scheme="https://520xnc.cn/blog/tags/java/"/>
+      <category term="java" scheme="https://blog.520xnc.cn/tags/java/"/>
     
-      <category term="mysql" scheme="https://520xnc.cn/blog/tags/mysql/"/>
+      <category term="mysql" scheme="https://blog.520xnc.cn/tags/mysql/"/>
     
-      <category term="redis" scheme="https://520xnc.cn/blog/tags/redis/"/>
+      <category term="redis" scheme="https://blog.520xnc.cn/tags/redis/"/>
     
-      <category term="Mongodb" scheme="https://520xnc.cn/blog/tags/Mongodb/"/>
+      <category term="Mongodb" scheme="https://blog.520xnc.cn/tags/Mongodb/"/>
     
-      <category term="oracle" scheme="https://520xnc.cn/blog/tags/oracle/"/>
+      <category term="oracle" scheme="https://blog.520xnc.cn/tags/oracle/"/>
     
-      <category term="设计模式" scheme="https://520xnc.cn/blog/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://blog.520xnc.cn/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
-      <category term="其他" scheme="https://520xnc.cn/blog/tags/%E5%85%B6%E4%BB%96/"/>
+      <category term="其他" scheme="https://blog.520xnc.cn/tags/%E5%85%B6%E4%BB%96/"/>
     
   </entry>
   
   <entry>
     <title>my first post</title>
-    <link href="https://520xnc.cn/blog/2019/01/29/My-New-Post-1/"/>
-    <id>https://520xnc.cn/blog/2019/01/29/My-New-Post-1/</id>
+    <link href="https://blog.520xnc.cn/2019/01/29/My-New-Post-1/"/>
+    <id>https://blog.520xnc.cn/2019/01/29/My-New-Post-1/</id>
     <published>2019-01-29T06:29:21.679Z</published>
     <updated>2019-01-29T06:46:08.988Z</updated>
     
@@ -105,8 +105,8 @@
   
   <entry>
     <title>我的第一个Hexo</title>
-    <link href="https://520xnc.cn/blog/2019/01/29/My-New-Post/"/>
-    <id>https://520xnc.cn/blog/2019/01/29/My-New-Post/</id>
+    <link href="https://blog.520xnc.cn/2019/01/29/My-New-Post/"/>
+    <id>https://blog.520xnc.cn/2019/01/29/My-New-Post/</id>
     <published>2019-01-29T06:24:38.000Z</published>
     <updated>2019-01-29T06:46:22.754Z</updated>
     
@@ -119,8 +119,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="https://520xnc.cn/blog/2019/01/29/hello-world/"/>
-    <id>https://520xnc.cn/blog/2019/01/29/hello-world/</id>
+    <link href="https://blog.520xnc.cn/2019/01/29/hello-world/"/>
+    <id>https://blog.520xnc.cn/2019/01/29/hello-world/</id>
     <published>2019-01-29T06:09:07.707Z</published>
     <updated>2019-01-29T06:09:07.707Z</updated>
     
