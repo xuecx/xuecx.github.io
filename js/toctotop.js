@@ -61,9 +61,11 @@ window.onscroll = function() {
 };
 
 function openDashang(id,event){
+
 var e = event || window.event;
 var top=e.getBoundingClientRect().top
 var left=e.getBoundingClientRect().left
+
 document.getElementById(id).style="display:inline-block;";
- 
+ 	event.style='display:none';
 }
