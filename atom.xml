@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.520xnc.cn/"/>
-  <updated>2019-02-14T01:01:12.410Z</updated>
+  <updated>2019-02-14T01:03:16.880Z</updated>
   <id>https://blog.520xnc.cn/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://blog.520xnc.cn/2019/02/14/20190214084943/"/>
     <id>https://blog.520xnc.cn/2019/02/14/20190214084943/</id>
     <published>2019-02-14T00:49:43.000Z</published>
-    <updated>2019-02-14T01:01:12.410Z</updated>
+    <updated>2019-02-14T01:03:16.880Z</updated>
     
     <content type="html"><![CDATA[<p>  在日常工作中经常会听到QPS/TPS这些名词，也会经常被别人问起说你的系统吞吐量有多大。这个问题从业务上来讲，<br>可以理解为应用系统每秒钟最大能接受的用户访问量。或者每秒钟最大能处理的请求数；</p><p>QPS: 每秒钟处理完请求的次数；注意这里是处理完。具体是指发出请求到服务器处理完成功返回结果。可以理解在server中有个counter，每处理一个请求加1，1秒后counter=QPS。<br>==可理解为单个接口服务==</p><p>TPS：每秒钟处理完的事务次数，一般TPS是对整个系统来讲的。一个应用系统1s能完成多少事务处理，一个事务在分布式处理中，可能会对应多个请求，对于衡量单个接口服务的处理能力，用QPS比较多。<br>==可理解为一个功能按钮==</p><p>并发量：系统能同时处理的请求数</p><p>RT：响应时间，处理一次请求所需要的平均处理时间</p><p>计算关系：</p><p>QPS = 并发量 / 平均响应时间</p><p>并发量 = QPS * 平均响应时间</p>]]></content>
     
@@ -42,8 +42,8 @@
   
   <entry>
     <title>git配置ssh免密登录</title>
-    <link href="https://blog.520xnc.cn/2019/01/31/cjs3x4x2s0005asgm3mq6tjsa/"/>
-    <id>https://blog.520xnc.cn/2019/01/31/cjs3x4x2s0005asgm3mq6tjsa/</id>
+    <link href="https://blog.520xnc.cn/2019/01/31/cjs5qgdlz0006j0gmfs57nhxt/"/>
+    <id>https://blog.520xnc.cn/2019/01/31/cjs5qgdlz0006j0gmfs57nhxt/</id>
     <published>2019-01-31T08:04:05.000Z</published>
     <updated>2019-01-31T08:13:08.270Z</updated>
     
@@ -69,8 +69,8 @@
   
   <entry>
     <title>java线上堆栈信息查看</title>
-    <link href="https://blog.520xnc.cn/2019/01/31/cjs3x4x2w0008asgmnlt0nuud/"/>
-    <id>https://blog.520xnc.cn/2019/01/31/cjs3x4x2w0008asgmnlt0nuud/</id>
+    <link href="https://blog.520xnc.cn/2019/01/31/cjs5qgdm3000aj0gmwv51sq60/"/>
+    <id>https://blog.520xnc.cn/2019/01/31/cjs5qgdm3000aj0gmwv51sq60/</id>
     <published>2019-01-31T02:40:48.000Z</published>
     <updated>2019-01-31T05:07:46.600Z</updated>
     
@@ -85,6 +85,8 @@
     
     </summary>
     
+    
+      <category term="其他" scheme="https://blog.520xnc.cn/tags/%E5%85%B6%E4%BB%96/"/>
     
       <category term="Linux" scheme="https://blog.520xnc.cn/tags/Linux/"/>
     
@@ -102,14 +104,12 @@
     
       <category term="设计模式" scheme="https://blog.520xnc.cn/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
-      <category term="其他" scheme="https://blog.520xnc.cn/tags/%E5%85%B6%E4%BB%96/"/>
-    
   </entry>
   
   <entry>
     <title>my first post</title>
-    <link href="https://blog.520xnc.cn/2019/01/29/cjs3x4x2n0001asgmksu4sy6a/"/>
-    <id>https://blog.520xnc.cn/2019/01/29/cjs3x4x2n0001asgmksu4sy6a/</id>
+    <link href="https://blog.520xnc.cn/2019/01/29/cjs5qgdlt0003j0gmam3lziv7/"/>
+    <id>https://blog.520xnc.cn/2019/01/29/cjs5qgdlt0003j0gmam3lziv7/</id>
     <published>2019-01-29T06:29:21.679Z</published>
     <updated>2019-01-29T06:46:08.988Z</updated>
     
@@ -129,8 +129,8 @@
   
   <entry>
     <title>我的第一个Hexo</title>
-    <link href="https://blog.520xnc.cn/2019/01/29/cjs3x4x2q0003asgml7ie5rpp/"/>
-    <id>https://blog.520xnc.cn/2019/01/29/cjs3x4x2q0003asgml7ie5rpp/</id>
+    <link href="https://blog.520xnc.cn/2019/01/29/cjs5qgdlx0005j0gmv775f6sn/"/>
+    <id>https://blog.520xnc.cn/2019/01/29/cjs5qgdlx0005j0gmv775f6sn/</id>
     <published>2019-01-29T06:24:38.000Z</published>
     <updated>2019-01-29T06:46:22.754Z</updated>
     
@@ -143,8 +143,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="https://blog.520xnc.cn/2019/01/29/cjs3x4x2t0006asgm58ljkl0q/"/>
-    <id>https://blog.520xnc.cn/2019/01/29/cjs3x4x2t0006asgm58ljkl0q/</id>
+    <link href="https://blog.520xnc.cn/2019/01/29/cjs5qgdm20009j0gmc2e1hakb/"/>
+    <id>https://blog.520xnc.cn/2019/01/29/cjs5qgdm20009j0gmc2e1hakb/</id>
     <published>2019-01-29T06:09:07.707Z</published>
     <updated>2019-01-29T06:09:07.707Z</updated>
     

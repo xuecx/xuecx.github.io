@@ -41,4 +41,6 @@ totop.onclick = function() {
   //totop.classList.add('launch');
   return false;
 };
-
+function openDashang(){
+  alert(1);
+}
