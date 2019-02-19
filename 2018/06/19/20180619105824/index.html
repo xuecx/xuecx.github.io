@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>java线程池要点 | 寒冬的腊梅</title><link rel="stylesheet" type="text/css" href="//fonts.css.network/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style.css?v=2.0.1"><link rel="stylesheet" type="text/css" href="/css/highlight.css?v=2.0.1"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">java线程池要点</h1><a id="logo" href="/.">寒冬的腊梅</a><p class="description">风雨百年6462</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="Arama"></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">java线程池要点</h1><div class="post-meta"><a href="/2018/06/19/20180619105824/#comments" class="comment-count"><i id="changyan_count_unit" data-xid="2018/06/19/20180619105824/"></i>留言,<i id="changyan_parti_unit" data-xid="2018/06/19/20180619105824/"></i>参与</a><p><span class="date">Jun 19, 2018</span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i>点击</i></i></span></p></div><div class="post-content"><h4 id="一、线程池框架jdk引入版本"><a href="#一、线程池框架jdk引入版本" class="headerlink" title="一、线程池框架jdk引入版本"></a>一、线程池框架jdk引入版本</h4><p>jdk1.5引入Executor线程池框架，通过它把任务的提交和执行进行解耦，只需要定义好任务，然后提交给线程池，而不用关心该任务是如何执行、被哪个线程执行，以及什么时候执行。</p>
+<h4 id="二、通过Executors类初始化"><a href="#二、通过Executors类初始化" class="headerlink" title="二、通过Executors类初始化"></a>二、通过Executors类初始化</h4><p><strong>newFixedThreadPool()</strong></p>
+<p>说明：初始化一个指定线程数的线程池，其中corePoolSize == maxiPoolSize，使用LinkedBlockingQuene作为阻塞队列</p>
+<p>特点：即使当线程池没有可执行任务时，也不会释放线程。</p>
+<p><strong>newCachedThreadPool()</strong></p>
+<p>说明：初始化一个可以缓存线程的线程池，默认缓存60s，线程池的线程数可达到Integer.MAX_VALUE，即2147483647，内部使用SynchronousQueue作为阻塞队列；</p>
+<p>特点：在没有任务执行时，当线程的空闲时间超过keepAliveTime，会自动释放线程资源；当提交新任务时，如果没有空闲线程，则创建新线程执行任务，会导致一定的系统开销；因此，使用时要注意控制并发的任务数，防止因创建大量的线程导致而降低性能。</p>
+<p><strong>newSingleThreadExecutor()</strong></p>
+<p>说明：初始化只有一个线程的线程池，内部使用LinkedBlockingQueue作为阻塞队列。</p>
+<p>特点：如果该线程异常结束，会重新创建一个新的线程继续执行任务，唯一的线程可以保证所提交任务的顺序执行；</p>
+<p><strong>newScheduledThreadPool()</strong></p>
+<p>特点：初始化的线程池可以在指定的时间内周期性的执行所提交的任务，在实际的业务场景中可以使用该线程池定期的同步数据。</p>
+<pre><code>总结
+</code></pre><p>除了newScheduledThreadPool的内部实现特殊一点之外，其它线程池内部都是基于ThreadPoolExecutor类（Executor的子类）实现的。</p>
+<h4 id="三、ThreadPoolExecutor内部具体实现"><a href="#三、ThreadPoolExecutor内部具体实现" class="headerlink" title="三、ThreadPoolExecutor内部具体实现"></a>三、ThreadPoolExecutor内部具体实现</h4><p><strong>ThreadPoolExecutor类构造器语法形式</strong></p>
+<p>ThreadPoolExecutor（corePoolSize,maxPoolSize,keepAliveTime,timeUnit,<br>workQueue,threadFactory,handle);   </p>
+<p><strong>方法参数：</strong></p>
+<p>corePoolSize：核心线程数</p>
+<p>maxPoolSize：最大线程数</p>
+<p>keepAliveTime：线程存活时间（在corePore&lt;*&lt;maxPoolSize情况下有用<br>    ）</p>
+<p>timeUnit：存活时间的时间单位</p>
+<p>workQueue：阻塞队列（用来保存等待被执行的任务）workQueue参数的取值,JDK提供了4种阻塞队列类型供选择</p>
+<pre><code>ArrayBlockingQueue：基于数组结构的有界阻塞队列，按FIFO排序任务；
+
+LinkedBlockingQuene：基于链表结构的阻塞队列，按FIFO排序任务，吞吐量通常要高于ArrayBlockingQueue  
+
+SynchronousQuene：一个不存储元素的阻塞队列，每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常要高于ArrayBlockingQuene；
+
+PriorityBlockingQuene：具有优先级的无界阻塞队列；
+</code></pre><p>threadFactory：线程工厂，主要用来创建线程；</p>
+<p>handler：表示当拒绝处理任务时的策略,当线程池的饱和策略，当阻塞队列满了，且没有空闲的工作线程，如果继续提交任务，必须采取一种策略处理该任务，线程池提供了4种策略</p>
+<pre><code>ThreadPoolExecutor.AbortPolicy:丢弃任务并抛出RejectedExecutionException异常;
+
+ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常;
+
+ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务（重复此过程）
+
+ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务当然也可以根据应用场景实现RejectedExecutionHandler接口，自定义饱和策略，如记录日志或持久化存储不能处理的任务。
+</code></pre><hr>
+<h4 id="四、线程池的状态（5种）"><a href="#四、线程池的状态（5种）" class="headerlink" title="四、线程池的状态（5种）"></a>四、线程池的状态（5种）</h4><p>其中AtomicInteger变量ctl的功能非常强大：利用低29位表示线程池中线程数，通过高3位表示线程池的运行状态</p>
+<p>1、RUNNING：-1 &lt;&lt; COUNT_BITS，即高3位为111，该状态的线程池会接收新任务，并处理阻塞队列中的任务；</p>
+<p>2、SHUTDOWN： 0 &lt;&lt; COUNT_BITS，即高3位为000，该状态的线程池不会接收新任务，但会处理阻塞队列中的任务；</p>
+<p>3、STOP ： 1 &lt;&lt; COUNT_BITS，即高3位为001，该状态的线程不会接收新任务，也不会处理阻塞队列中的任务，而且会中断正在运行的任务；<br>4、TIDYING ： 2 &lt;&lt; COUNT_BITS，即高3位为010，该状态表示线程池对线程进行整理优化；</p>
+<p>5、TERMINATED： 3 &lt;&lt; COUNT_BITS，即高3位为011，该状态表示线程池停止工作；</p>
+<pre><code>线程状态：
+1. 新建状态(New)：线程对象被创建后，就进入了新建状态。例如，Thread thread = new Thread()；
+2. 就绪状态(Runnable)：也被称为“可执行状态”。线程对象被创建后，其它线程调用了该对象的start()方法，从而来启动该线程。例如，thread.start()。处于就绪状态的线程，随时可能被CPU调度执行。
+3. 运行状态(Running) : 线程获取CPU权限进行执行。需要注意的是，线程只能从就绪状态进入到运行状态。
+4. 阻塞状态(Blocked)  : 阻塞状态是线程因为某种原因放弃CPU使用权，暂时停止运行。直到线程进入就绪状态，才有机会转到运行状态。阻塞的情况分三种：
+  (01) 等待阻塞 -- 通过调用线程的wait()方法，让线程等待某工作的完成。
+  (02) 同步阻塞 -- 线程在获取synchronized同步锁失败(因为锁被其它线程所占用)，它会进入同步阻塞状态。
+  (03) 其他阻塞 -- 通过调用线程的sleep()或join()或发出了I/O请求时，线程会进入到阻塞状态。当sleep()状态超时、join()等待线程终止或者超时、或者I/O处理完毕时，线程重新转入就绪状态。
+5. 死亡状态(Dead)    : 线程执行完了或者因异常退出了run()方法，该线程结束生命周期。
+</code></pre><hr>
+<h4 id="五、向线程池提交任务（2种）"><a href="#五、向线程池提交任务（2种）" class="headerlink" title="五、向线程池提交任务（2种）"></a>五、向线程池提交任务（2种）</h4><pre><code>Executor.execute(Runnable command);
+
+ExecutorService.submit(Callable&lt;T&gt; task);
+</code></pre><p><strong>execute()内部实现</strong></p>
+<p>1.首次通过workCountof()获知当前线程池中的线程数，如果小于corePoolSize,就通过addWorker()创建线程并执行该任务；否则，将该任务放入阻塞队列；</p>
+<p>2.如果能成功将任务放入阻塞队列中,如果当前线程池是非RUNNING状态，则将该任务从阻塞队列中移除，然后执行reject()处理该任务；如果当前线程池处于RUNNING状态，则需要再次检查线程池（因为可能在上次检查后，有线程资源被释放），是否有空闲的线程；如果有则执行该任务；</p>
+<p>3.如果不能将任务放入阻塞队列中,说明阻塞队列已满；那么将通过addWoker()尝试创建一个新的线程去执行这个任务；如果addWoker()执行失败，说明线程池中线程数达到maxPoolSize,则执行reject()处理任务；</p>
+<p><strong> sumbit()内部实现</strong></p>
+<p>会将提交的Callable任务会被封装成了一个FutureTask对象,FutureTask类实现了Runnable接口，这样就可以通过Executor.execute()提交FutureTask到线程池中等待被执行，最终执行的是FutureTask的run方法； </p>
+<p><strong>比较：</strong></p>
+<p>两个方法都可以向线程池提交任务，execute()方法的返回类型是void，它定义在Executor接口中, 而submit()方法可以返回持有计算结果的Future对象，它定义在ExecutorService接口中，它扩展了Executor接口，其它线程池类像ThreadPoolExecutor和ScheduledThreadPoolExecutor都有这些方法。 </p>
+<hr>
+<h4 id="六、线程池的关闭（2种）"><a href="#六、线程池的关闭（2种）" class="headerlink" title="六、线程池的关闭（2种）"></a>六、线程池的关闭（2种）</h4><pre><code>ThreadPoolExecutor提供了两个方法
+shutdown()
+shutdownNow()
+</code></pre><p>　　</p>
+<p>1、shutdown()：不会立即终止线程池，而是要等所有任务缓存队列中的任务都执行完后才终止，但再也不会接受新的任务；</p>
+<p>2、shutdownNow()：立即终止线程池，并尝试打断正在执行的任务，并且清空任务缓存队列，返回尚未执行的任务</p>
+<hr>
+<h4 id="七、线程池容量的动态调整"><a href="#七、线程池容量的动态调整" class="headerlink" title="七、线程池容量的动态调整"></a>七、线程池容量的动态调整</h4><pre><code>ThreadPoolExecutor提供了动态调整线程池容量大小的方法：
+setCorePoolSize()
+setMaximumPoolSize()
+</code></pre><h4 id="八、总结："><a href="#八、总结：" class="headerlink" title="八、总结："></a>八、总结：</h4><p>1、线程池中的核心线程数，当提交一个任务时，线程池创建一个新线程执行任务，直到当前线程数等于corePoolSize；如果当前线程数为corePoolSize，继续提交的任务被保存到阻塞队列中，等待被执行；如果阻塞队列满了，那就创建新的线程执行当前任务；直到线程池中的线程数达到maxPoolSize,这时再有任务来，只能执行reject()处理该任务；</p>
+<p>2、如果执行了线程池的prestartAllCoreThreads()方法，线程池会提前创建并启动所有核心线程。</p>
+</div><div style="text-align: center;"><div style="display: inline-block;" onclick="openDashang('dashang',this)" class="post-dashang"></div><div style="display:none;" id="dashang"><div style="display:inline-block"><span><img src="/img/weixin.jpg" style="width:150px;height:150px;"></span><span><img src="/img/zfb.jpg" style="width:150px;height:150px;"></span></div></div></div><div class="tags"><a href="/tags/线程池/">线程池</a></div><div class="post-share"><div class="bdsharebuttonbox"><span style="float:left;line-height: 28px;height: 28px;font-size:16px;font-weight:blod">分享到：</span><a href="#" data-cmd="more" class="bds_more"></a><a href="#" data-cmd="mshare" title="分享到一键分享" class="bds_mshare"></a><a href="#" data-cmd="fbook" title="分享到Facebook" class="bds_fbook"></a><a href="#" data-cmd="twi" title="分享到Twitter" class="bds_twi"></a><a href="#" data-cmd="linkedin" title="分享到linkedin" class="bds_linkedin"></a><a href="#" data-cmd="youdao" title="分享到有道云笔记" class="bds_youdao"></a><a href="#" data-cmd="evernotecn" title="分享到印象笔记" class="bds_evernotecn"></a><a href="#" data-cmd="weixin" title="分享到微信" class="bds_weixin"></a><a href="#" data-cmd="qzone" title="分享到QQ空间" class="bds_qzone"></a><a href="#" data-cmd="tsina" title="分享到新浪微博" class="bds_tsina"></a></div></div><div class="post-nav"><a href="/2019/01/31/two/" class="pre">java线上堆栈信息查看</a><a href="/2018/03/18/20180318095425/" class="next">谈谈自己对spring的理解</a></div><div id="comments"><div id="SOHUCS" sid="2018/06/19/20180619105824/"></div></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">文章目录</i></div><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、线程池框架jdk引入版本"><span class="toc-text">一、线程池框架jdk引入版本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、通过Executors类初始化"><span class="toc-text">二、通过Executors类初始化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、ThreadPoolExecutor内部具体实现"><span class="toc-text">三、ThreadPoolExecutor内部具体实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四、线程池的状态（5种）"><span class="toc-text">四、线程池的状态（5种）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#五、向线程池提交任务（2种）"><span class="toc-text">五、向线程池提交任务（2种）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#六、线程池的关闭（2种）"><span class="toc-text">六、线程池的关闭（2种）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#七、线程池容量的动态调整"><span class="toc-text">七、线程池容量的动态调整</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#八、总结："><span class="toc-text">八、总结：</span></a></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/02/14/20190214084943/">并发量吞吐量响应时间的关系</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/31/one/">git配置ssh免密登录</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/31/two/">java线上堆栈信息查看</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/19/20180619105824/">java线程池要点</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/18/20180318095425/">谈谈自己对spring的理解</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/Mongodb/" style="font-size: 15px;">Mongodb</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/堆栈/" style="font-size: 15px;">堆栈</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/ssh/" style="font-size: 15px;">ssh</a> <a href="/tags/oracle/" style="font-size: 15px;">oracle</a> <a href="/tags/设计模式/" style="font-size: 15px;">设计模式</a> <a href="/tags/其他/" style="font-size: 15px;">其他</a> <a href="/tags/线程池/" style="font-size: 15px;">线程池</a> <a href="/tags/spring/" style="font-size: 15px;">spring</a> <a href="/tags/srpingboot/" style="font-size: 15px;">srpingboot</a> <a href="/tags/springcloud/" style="font-size: 15px;">springcloud</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-you"> 友情链接</i></div><ul></ul><a href="https://www.520xnc.cn/" title="后端管理" target="_blank">后端管理</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><a href="/baidusitemap.xml">Baidu Site Haritası</a> |  <a href="/atom.xml">订阅</a> |  <a href="/about/">关于</a></p><p>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次</p><p><span> Copyright &copy;<a href="/." rel="nofollow">xuecx.</a></span><span> Theme by<a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake.</a></span><span> Count by<a href="http://busuanzi.ibruce.info/"> busuanzi.</a></span><span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a></span></p></div></div></div><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?7cca78d20ba65d0c1b51b32e53e73e6a";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="/js/search.json.js?v=2.0.1"></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.1" async></script><script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","weixin","tsina","qzone","linkedin","fbook","twi","print","renren","sqq","evernotecn","bdysc","tqq","tqf","bdxc","kaixin001","tieba","douban","bdhome","thx","ibaidu","meilishuo","mogujie","diandian","huaban","duitang","hx","fx","youdao","sdo","qingbiji","people","xinhua","mail","isohu","yaolan","wealink","ty","iguba","h163","copy"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["tsina","qzone","weixin","fbook","twi","linkedin","youdao","evernotecn","mshare"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["tsina","qzone","weixin","fbook","twi","linkedin","youdao","evernotecn","mshare"]}};with(document)0[(getElementsByTagName('head')[0]||head).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script><script>window._config = { showScore: true };
+(function(){ 
+  var appid = 'cyu3MpEE6'; 
+  var conf = 'b104b9eefd46c5edfd7617072a755e04'; 
+  var width = window.innerWidth || document.documentElement.clientWidth; 
+  var nodes =document.getElementsByTagName("head")[0]||document.head||document.documentElement;
+  if (/(Android|iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) && width < 750) {  
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+  }
+  else { 
+    var loadJs=function(d,a){
+      var b=document.createElement("script");b.setAttribute("type","text/javascript");
+      b.setAttribute("charset","UTF-8");
+      b.setAttribute("src",d);
+      if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}
+      nodes.appendChild(b)
+    };
+    loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); 
+  } 
+  var loadCss = function(cssString){  
+    var style=document.createElement("style");  
+    style.setAttribute("type", "text/css");  
+    if(style.styleSheet){// IE  
+        style.styleSheet.cssText = cssString;  
+    } else {// w3c  
+        var cssText = document.createTextNode(cssString);  
+        style.appendChild(cssText);  
+    }
+    nodes.appendChild(style);
+  }
+  window.onload=function(){loadCss('.module-hot-topic,.module-cmt-float-bar{display:none!important}#SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .cbox-prompt-w span.prompt-empty-w,#SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-form-w .form-text-w span.text-null,#SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-minwidth-w div.cont-comment-w a.comment-link-w,#SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-minwidth-w div.cont-comment-w span.comment-text-w,#SOHUCS #SOHU_MAIN .module-cmt-footer .section-service-w div.service-wrap-w a:hover,#SOHUCS #SOHU_MAIN .module-cmt-header .section-cbox-w .block-head-w div.header-login,#SOHUCS #SOHU_MAIN .module-cmt-header .section-title-w .title-user-w .user-wrap-w span.wrap-name-w,#SOHUCS #SOHU_MAIN .module-cmt-list .action-click-gw span.click-disable-eg a em.icon-name-bg,#SOHUCS #SOHU_MAIN .module-cmt-list .block-title-gw ul li div.title-name-gw,#SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .cmt-list-number .comment-number span.cy-number,#SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .cmt-list-number span.comment-number,#SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li.active,#SOHUCS #SOHU_MAIN .module-cmt-list .msg-wrap-gw .wrap-action-gw .action-click-gw span a:hover,#SOHUCS #SOHU_MAIN .module-cmt-list .picture-box-gw div.box-action-gw a:hover,#SOHUCS #SOHU_MAIN .module-cmt-list .wrap-action-gw .action-click-gw span a:hover em.icon-name-bg,#SOHUCS #SOHU_MAIN .module-cmt-list .wrap-user-gw span.user-name-gw a{color:#40759b!important}#SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .post-wrap-border-t div.post-wrap-border-t-r,#SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-border-l,#SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-border-r{display:none!important}#SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .post-wrap-border-t div.post-wrap-border-t-l{background:#FFF!important;top:-2px!important}#SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-function-w .uploading-wrapper-dw div.wrapper-image-dw,#SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w div.post-wrap-main,#SOHUCS #SOHU_MAIN .module-cmt-float-bar .wrap-cont-w .cont-form-w div.form-text-w,#SOHUCS #SOHU_MAIN .module-cmt-header .section-cbox-w .block-head-w div.header-login,#SOHUCS #SOHU_MAIN .module-cmt-list .module-cmt-box .post-wrap-w div.post-wrap-main{border:1px solid #e6e6e6!important;border-radius:20px 20px 20px 20px;margin:0!important}#SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a .btn-fw{width:130px!important;height:34px!important;line-height:33px!important;font-size:17px!important;background:#5483b1!important;border-radius:20px!important;color:#FFF!important;-webkit-box-shadow:0 -1px 4px #5483b1 inset;box-shadow:0 -1px 10px #5483b1 inset}#SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a .btn-fw:before{content:"发表评论"}#SOHUCS #SOHU_MAIN .module-cmt-box .post-wrap-w .wrap-action-w .action-issue-w .issue-btn-w a:hover .btn-fw{color:#40759b!important;background:#FFF!important}#SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li{background:none!important;border-bottom:1px solid #e6e6e6}#SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type .type-lists li.active{border:1px solid #e6e6e6;border-radius:10px 10px 0 0;border-bottom:none}#SOHUCS #SOHU_MAIN .module-cmt-list .block-title-gw ul li .title-name-gw div.title-name-gw-tag{background:#5483b1!important;border-radius:3px}#SOHUCS #SOHU_MAIN .module-cmt-list .cmt-list-type div.cmt-list-border{background-color:#e6e6e6!important}#SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item{border:1px solid #e6e6e6!important}#SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item .nt-logo{text-align:center;line-height:40px;border-radius:50%!important;background:#e6e6e6!important}#SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item .nt-logo:before{content:"畅";font-size:22px;color:#FFF}#SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item a.nt-text,#SOHUCS #SOHU_MAIN .module-cmt-notice ul.nt-list li.nt-item a.nt-text i{color:#5483b1!important}#SOHUCS #SOHU_MAIN .module-cmt-header .section-title-w .title-user-w .user-wrap-w{background:#FFF!important}');};
+})();</script><script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script></body></html>

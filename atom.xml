@@ -107,58 +107,52 @@
   </entry>
   
   <entry>
-    <title>my first post</title>
-    <link href="https://blog.520xnc.cn/2019/01/29/cjsa3xudi0001bggmtdo7qrpg/"/>
-    <id>https://blog.520xnc.cn/2019/01/29/cjsa3xudi0001bggmtdo7qrpg/</id>
-    <published>2019-01-29T06:29:21.679Z</published>
-    <updated>2019-01-29T06:46:08.988Z</updated>
+    <title>java线程池要点</title>
+    <link href="https://blog.520xnc.cn/2018/06/19/20180619105824/"/>
+    <id>https://blog.520xnc.cn/2018/06/19/20180619105824/</id>
+    <published>2018-06-19T02:58:24.000Z</published>
+    <updated>2019-02-19T03:08:57.815Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="开源中国社区"><a href="#开源中国社区" class="headerlink" title="开源中国社区"></a>开源中国社区</h1><h3 id="Header-3"><a href="#Header-3" class="headerlink" title="Header 3"></a>Header 3</h3><blockquote><p>This is a blockquote.</p><p>This is the second paragraph in the blockquote.</p><h2 id="This-is-an-H2-in-a-blockquote"><a href="#This-is-an-H2-in-a-blockquote" class="headerlink" title="This is an H2 in a blockquote"></a>This is an H2 in a blockquote</h2></blockquote>]]></content>
+    <content type="html"><![CDATA[<h4 id="一、线程池框架jdk引入版本"><a href="#一、线程池框架jdk引入版本" class="headerlink" title="一、线程池框架jdk引入版本"></a>一、线程池框架jdk引入版本</h4><p>jdk1.5引入Executor线程池框架，通过它把任务的提交和执行进行解耦，只需要定义好任务，然后提交给线程池，而不用关心该任务是如何执行、被哪个线程执行，以及什么时候执行。</p><h4 id="二、通过Executors类初始化"><a href="#二、通过Executors类初始化" class="headerlink" title="二、通过Executors类初始化"></a>二、通过Executors类初始化</h4><p><strong>newFixedThreadPool()</strong></p><p>说明：初始化一个指定线程数的线程池，其中corePoolSize == maxiPoolSize，使用LinkedBlockingQuene作为阻塞队列</p><p>特点：即使当线程池没有可执行任务时，也不会释放线程。</p><p><strong>newCachedThreadPool()</strong></p><p>说明：初始化一个可以缓存线程的线程池，默认缓存60s，线程池的线程数可达到Integer.MAX_VALUE，即2147483647，内部使用SynchronousQueue作为阻塞队列；</p><p>特点：在没有任务执行时，当线程的空闲时间超过keepAliveTime，会自动释放线程资源；当提交新任务时，如果没有空闲线程，则创建新线程执行任务，会导致一定的系统开销；因此，使用时要注意控制并发的任务数，防止因创建大量的线程导致而降低性能。</p><p><strong>newSingleThreadExecutor()</strong></p><p>说明：初始化只有一个线程的线程池，内部使用LinkedBlockingQueue作为阻塞队列。</p><p>特点：如果该线程异常结束，会重新创建一个新的线程继续执行任务，唯一的线程可以保证所提交任务的顺序执行；</p><p><strong>newScheduledThreadPool()</strong></p><p>特点：初始化的线程池可以在指定的时间内周期性的执行所提交的任务，在实际的业务场景中可以使用该线程池定期的同步数据。</p><pre><code>总结</code></pre><p>除了newScheduledThreadPool的内部实现特殊一点之外，其它线程池内部都是基于ThreadPoolExecutor类（Executor的子类）实现的。</p><h4 id="三、ThreadPoolExecutor内部具体实现"><a href="#三、ThreadPoolExecutor内部具体实现" class="headerlink" title="三、ThreadPoolExecutor内部具体实现"></a>三、ThreadPoolExecutor内部具体实现</h4><p><strong>ThreadPoolExecutor类构造器语法形式</strong></p><p>ThreadPoolExecutor（corePoolSize,maxPoolSize,keepAliveTime,timeUnit,<br>workQueue,threadFactory,handle);   </p><p><strong>方法参数：</strong></p><p>corePoolSize：核心线程数</p><p>maxPoolSize：最大线程数</p><p>keepAliveTime：线程存活时间（在corePore&lt;*&lt;maxPoolSize情况下有用<br>    ）</p><p>timeUnit：存活时间的时间单位</p><p>workQueue：阻塞队列（用来保存等待被执行的任务）workQueue参数的取值,JDK提供了4种阻塞队列类型供选择</p><pre><code>ArrayBlockingQueue：基于数组结构的有界阻塞队列，按FIFO排序任务；LinkedBlockingQuene：基于链表结构的阻塞队列，按FIFO排序任务，吞吐量通常要高于ArrayBlockingQueue  SynchronousQuene：一个不存储元素的阻塞队列，每个插入操作必须等到另一个线程调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常要高于ArrayBlockingQuene；PriorityBlockingQuene：具有优先级的无界阻塞队列；</code></pre><p>threadFactory：线程工厂，主要用来创建线程；</p><p>handler：表示当拒绝处理任务时的策略,当线程池的饱和策略，当阻塞队列满了，且没有空闲的工作线程，如果继续提交任务，必须采取一种策略处理该任务，线程池提供了4种策略</p><pre><code>ThreadPoolExecutor.AbortPolicy:丢弃任务并抛出RejectedExecutionException异常;ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常;ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务（重复此过程）ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务当然也可以根据应用场景实现RejectedExecutionHandler接口，自定义饱和策略，如记录日志或持久化存储不能处理的任务。</code></pre><hr><h4 id="四、线程池的状态（5种）"><a href="#四、线程池的状态（5种）" class="headerlink" title="四、线程池的状态（5种）"></a>四、线程池的状态（5种）</h4><p>其中AtomicInteger变量ctl的功能非常强大：利用低29位表示线程池中线程数，通过高3位表示线程池的运行状态</p><p>1、RUNNING：-1 &lt;&lt; COUNT_BITS，即高3位为111，该状态的线程池会接收新任务，并处理阻塞队列中的任务；</p><p>2、SHUTDOWN： 0 &lt;&lt; COUNT_BITS，即高3位为000，该状态的线程池不会接收新任务，但会处理阻塞队列中的任务；</p><p>3、STOP ： 1 &lt;&lt; COUNT_BITS，即高3位为001，该状态的线程不会接收新任务，也不会处理阻塞队列中的任务，而且会中断正在运行的任务；<br>4、TIDYING ： 2 &lt;&lt; COUNT_BITS，即高3位为010，该状态表示线程池对线程进行整理优化；</p><p>5、TERMINATED： 3 &lt;&lt; COUNT_BITS，即高3位为011，该状态表示线程池停止工作；</p><pre><code>线程状态：1. 新建状态(New)：线程对象被创建后，就进入了新建状态。例如，Thread thread = new Thread()；2. 就绪状态(Runnable)：也被称为“可执行状态”。线程对象被创建后，其它线程调用了该对象的start()方法，从而来启动该线程。例如，thread.start()。处于就绪状态的线程，随时可能被CPU调度执行。3. 运行状态(Running) : 线程获取CPU权限进行执行。需要注意的是，线程只能从就绪状态进入到运行状态。4. 阻塞状态(Blocked)  : 阻塞状态是线程因为某种原因放弃CPU使用权，暂时停止运行。直到线程进入就绪状态，才有机会转到运行状态。阻塞的情况分三种：  (01) 等待阻塞 -- 通过调用线程的wait()方法，让线程等待某工作的完成。  (02) 同步阻塞 -- 线程在获取synchronized同步锁失败(因为锁被其它线程所占用)，它会进入同步阻塞状态。  (03) 其他阻塞 -- 通过调用线程的sleep()或join()或发出了I/O请求时，线程会进入到阻塞状态。当sleep()状态超时、join()等待线程终止或者超时、或者I/O处理完毕时，线程重新转入就绪状态。5. 死亡状态(Dead)    : 线程执行完了或者因异常退出了run()方法，该线程结束生命周期。</code></pre><hr><h4 id="五、向线程池提交任务（2种）"><a href="#五、向线程池提交任务（2种）" class="headerlink" title="五、向线程池提交任务（2种）"></a>五、向线程池提交任务（2种）</h4><pre><code>Executor.execute(Runnable command);ExecutorService.submit(Callable&lt;T&gt; task);</code></pre><p><strong>execute()内部实现</strong></p><p>1.首次通过workCountof()获知当前线程池中的线程数，如果小于corePoolSize,就通过addWorker()创建线程并执行该任务；否则，将该任务放入阻塞队列；</p><p>2.如果能成功将任务放入阻塞队列中,如果当前线程池是非RUNNING状态，则将该任务从阻塞队列中移除，然后执行reject()处理该任务；如果当前线程池处于RUNNING状态，则需要再次检查线程池（因为可能在上次检查后，有线程资源被释放），是否有空闲的线程；如果有则执行该任务；</p><p>3.如果不能将任务放入阻塞队列中,说明阻塞队列已满；那么将通过addWoker()尝试创建一个新的线程去执行这个任务；如果addWoker()执行失败，说明线程池中线程数达到maxPoolSize,则执行reject()处理任务；</p><p><strong> sumbit()内部实现</strong></p><p>会将提交的Callable任务会被封装成了一个FutureTask对象,FutureTask类实现了Runnable接口，这样就可以通过Executor.execute()提交FutureTask到线程池中等待被执行，最终执行的是FutureTask的run方法； </p><p><strong>比较：</strong></p><p>两个方法都可以向线程池提交任务，execute()方法的返回类型是void，它定义在Executor接口中, 而submit()方法可以返回持有计算结果的Future对象，它定义在ExecutorService接口中，它扩展了Executor接口，其它线程池类像ThreadPoolExecutor和ScheduledThreadPoolExecutor都有这些方法。 </p><hr><h4 id="六、线程池的关闭（2种）"><a href="#六、线程池的关闭（2种）" class="headerlink" title="六、线程池的关闭（2种）"></a>六、线程池的关闭（2种）</h4><pre><code>ThreadPoolExecutor提供了两个方法shutdown()shutdownNow()</code></pre><p>　　</p><p>1、shutdown()：不会立即终止线程池，而是要等所有任务缓存队列中的任务都执行完后才终止，但再也不会接受新的任务；</p><p>2、shutdownNow()：立即终止线程池，并尝试打断正在执行的任务，并且清空任务缓存队列，返回尚未执行的任务</p><hr><h4 id="七、线程池容量的动态调整"><a href="#七、线程池容量的动态调整" class="headerlink" title="七、线程池容量的动态调整"></a>七、线程池容量的动态调整</h4><pre><code>ThreadPoolExecutor提供了动态调整线程池容量大小的方法：setCorePoolSize()setMaximumPoolSize()</code></pre><h4 id="八、总结："><a href="#八、总结：" class="headerlink" title="八、总结："></a>八、总结：</h4><p>1、线程池中的核心线程数，当提交一个任务时，线程池创建一个新线程执行任务，直到当前线程数等于corePoolSize；如果当前线程数为corePoolSize，继续提交的任务被保存到阻塞队列中，等待被执行；如果阻塞队列满了，那就创建新的线程执行当前任务；直到线程池中的线程数达到maxPoolSize,这时再有任务来，只能执行reject()处理该任务；</p><p>2、如果执行了线程池的prestartAllCoreThreads()方法，线程池会提前创建并启动所有核心线程。</p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h1 id=&quot;开源中国社区&quot;&gt;&lt;a href=&quot;#开源中国社区&quot; class=&quot;headerlink&quot; title=&quot;开源中国社区&quot;&gt;&lt;/a&gt;开源中国社区&lt;/h1&gt;&lt;h3 id=&quot;Header-3&quot;&gt;&lt;a href=&quot;#Header-3&quot; class=&quot;headerlink&quot; 
+        &lt;h4 id=&quot;一、线程池框架jdk引入版本&quot;&gt;&lt;a href=&quot;#一、线程池框架jdk引入版本&quot; class=&quot;headerlink&quot; title=&quot;一、线程池框架jdk引入版本&quot;&gt;&lt;/a&gt;一、线程池框架jdk引入版本&lt;/h4&gt;&lt;p&gt;jdk1.5引入Executor线程池框架，
       
     
     </summary>
     
+    
+      <category term="线程池" scheme="https://blog.520xnc.cn/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/"/>
     
   </entry>
   
   <entry>
-    <title>我的第一个Hexo</title>
-    <link href="https://blog.520xnc.cn/2019/01/29/cjsa3xudm0003bggmrdr4wgj4/"/>
-    <id>https://blog.520xnc.cn/2019/01/29/cjsa3xudm0003bggmrdr4wgj4/</id>
-    <published>2019-01-29T06:24:38.000Z</published>
-    <updated>2019-01-29T06:46:22.754Z</updated>
+    <title>谈谈自己对spring的理解</title>
+    <link href="https://blog.520xnc.cn/2018/03/18/20180318095425/"/>
+    <id>https://blog.520xnc.cn/2018/03/18/20180318095425/</id>
+    <published>2018-03-18T01:54:25.000Z</published>
+    <updated>2019-02-19T01:57:05.125Z</updated>
     
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://blog.520xnc.cn/2019/01/29/cjsa3xudl0002bggmgmot9ks1/"/>
-    <id>https://blog.520xnc.cn/2019/01/29/cjsa3xudl0002bggmgmot9ks1/</id>
-    <published>2019-01-29T06:09:07.707Z</published>
-    <updated>2019-01-29T06:09:07.707Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<h3 id="一、spring的理解"><a href="#一、spring的理解" class="headerlink" title="一、spring的理解"></a>一、spring的理解</h3><p>1、spring 是一个大概念，开始是一个library到现在的一个系列；</p><p>2、spring现在最主要的内容是spring Framework、spring data、spring security、spring Batch，快速框架 spring boot，微服务架构spring cloud，其中最主要的是springFramework，它包含了IoC、AOP、MVC以及Testing；</p><p>3、Spring 的核心就是IoC和AOP，IoC就是依赖注入，简言之就是将对象的创建交由Spring容器，由原来的编译时延迟到运行时，及是通过配置进行加载，这样一来就解决了不用编译，后期选择具体的实现，本身也是面向对象的核心理念。简言之就是从原先的new 变为配置组装，内部通过注入解决依赖关系；</p><p>4、AOP就是面向切面编程，使用最多的就是事物（动态代理，invokationHandler-jdk、MethodInterceptor-cglib ）、记录日志，自己写AOP的话就利用@aspect 和@pointcut</p><h3 id="二、Spring-最有价值的应用："><a href="#二、Spring-最有价值的应用：" class="headerlink" title="二、Spring 最有价值的应用："></a>二、Spring 最有价值的应用：</h3><p>1、Ioc和AOP就是一个套路，spring 用这个套路集成了多个orm，所以spring 越做越大，慢慢就形成了 spring way；</p><p>2、spring的实践应用，spring mvc、spring data、spring Security、Spring boot、spring cloud等</p><h3 id="三、spring-mvc的运行流程"><a href="#三、spring-mvc的运行流程" class="headerlink" title="三、spring mvc的运行流程"></a>三、spring mvc的运行流程</h3><p>1、用户发送请求到前端控制器DispatcherServlet；</p><p>2、DispatcherServlet收到请求调用HandlerMapping 处理器映射器；</p><p>3、处理器映射器通过xml配置或者注解找到对应的处理器，并生成处理器对象以及处理器拦截器（如果有），并返回给DispacherSersvlet；</p><p>4、DispacherSersvlet调用HandlerAdapter适配器；</p><p>5、HandlerAdapter 经过适配后调用具体的后端Controller；</p><p>6、Controller完成后返回ModelAndView给HandlerAdapter;</p><p>7、HandlerAdapter返回给DispatcherServlet；</p><p>8、DispatcerServlet 传递给ViewReslover视图解析器；</p><p>9、视图解析器返回View给DispatcherServlet；</p><p>10、DispatcherServlet 根据view 渲染视图，响应用户；</p><h3 id="四、Spring-data"><a href="#四、Spring-data" class="headerlink" title="四、Spring data"></a>四、Spring data</h3><p>1、包含了很多子项目，有commons，jpa，jdbc，Document、key-value等，他不拘礼与关系型数据库还是非关系型数据库，只在简化数据持久化操作，他提供了对数据库crud的操作方法，降低了数据访问对象的开发量；</p><h3 id="五、spring-Security"><a href="#五、spring-Security" class="headerlink" title="五、spring Security"></a>五、spring Security</h3><p>Spring Security是基于spring ioc和Aop为企业级应用提供安全控制的解决方案，减少企业级应用中开发大量的重复的安全代码；</p><p>1、 Web/Http 安全：这是最复杂的部分。通过建立 filter 相关的 service bean 来实现框架的认证机制</p><p>2、业务对象或者方法的安全：控制方法访问权限的。</p><p>3、AuthenticationManager：处理来自于框架其他部分的认证请求。</p><p>4、为 Web 或方法的安全提供访问决策；</p><p>5、AuthenticationProvider：AuthenticationManager 是通过它来认证用户的。</p><p>6、UserDetailsService：跟 AuthenticationProvider 关系密切，用来获取用户信息的。</p><h4 id="Shiro"><a href="#Shiro" class="headerlink" title="Shiro"></a>Shiro</h4><p>1、shiro 提供了用户认证、权限认证、session管理、加密、记住我、cache、Testing，web集成，多线程应用的并发验证；</p><p>2、shiro三大核心Subject, SecurityManager 和 Realms</p><p>spring Security和shiro的比较：<br>Shiro比Spring更容易使用，实现和最重要的理解<br>Spring Security更加知名的唯一原因是因为品牌名称<br>“Spring”以简单而闻名，但是很多人发现安装Spring Security很难<br>然而，Spring Security设置支持更好<br>Apache Shiro在Spring Security处理密码学方面有一个额外的模块<br>Spring-security 对spring 结合较好，如果项目用的springmvc ，使用起来很方便。但是如果项目中没有用到spring，那就不要考虑它了。<br>Shiro 功能强大、且 简单、灵活。是Apache 下的项目，比较可靠，且不跟任何的框架或者容器绑定，可以独立运行；</p><h3 id="六、spring-Batch"><a href="#六、spring-Batch" class="headerlink" title="六、spring Batch"></a>六、spring Batch</h3><p>1、批处理框架，大型企业应用中批量下发命令；</p><h3 id="七、spring-boot"><a href="#七、spring-boot" class="headerlink" title="七、spring boot"></a>七、spring boot</h3><p>开发目的是简化spring的配置和开发过程，框架使用了特定的配置，从而使开发人员不必在关注很多spring 模板化的配置，他致力于快速应用开发领域；</p><ol><li>创建独立的Spring应用程序</li><li>嵌入的Tomcat，无需部署WAR文件</li><li>简化Maven配置</li><li>自动配置Spring</li><li>提供生产就绪型功能，如指标，健康检查和外部配置;</li></ol><h3 id="八、spring-cloud"><a href="#八、spring-cloud" class="headerlink" title="八、spring cloud"></a>八、spring cloud</h3><p>Spring Cloud是一个基于Spring Boot来实现的一系列工具框架的集合体，Spring Cloud为开发人员提供了快速构建分布式系统中的一些通用模式（例如配置管理，服务发现，断路器，智能路由，微代理，控制总线，一次性令牌，全局锁，领导选举，分布式会话，群集状态）， 它们可以在任何分布式环境中正常工作，包括开发人员自己的笔记本电脑，裸机数据中心和受管平台；</p><p>1、 服务发现——Netflix Eureka ：一个RESTful服务，用来定位运行在AWS地区（Region）中的中间层服务。由两个组件组成：Eureka服务器和Eureka客户端；</p><p>2、客服端负载均衡——Netflix Ribbon  ：主要提供客户侧的软件负载均衡算法；</p><p>3、断路器——Netflix Hystrix： 断路器可以防止一个应用程序多次试图执行一个操作，即很  可能失败，允许它继续而不等待故障恢复或者浪费 CPU 周期，而它确定该故障是持久 的。断路器模式也使应用程序能够检测故障是否已经解决。如果问题似乎已经得到纠正​​，应用程序可以尝试调用操作；</p><p>4、 服务网关——Netflix Zuul  ：类似nginx，反向代理的功能，不过netflix自己增加了一些配合其他组件的特性；</p><p>5、 分布式配置——Spring Cloud Config；</p><p>……</p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+        &lt;h3 id=&quot;一、spring的理解&quot;&gt;&lt;a href=&quot;#一、spring的理解&quot; class=&quot;headerlink&quot; title=&quot;一、spring的理解&quot;&gt;&lt;/a&gt;一、spring的理解&lt;/h3&gt;&lt;p&gt;1、spring 是一个大概念，开始是一个library到现在的一个
       
     
     </summary>
     
+    
+      <category term="spring" scheme="https://blog.520xnc.cn/tags/spring/"/>
+    
+      <category term="srpingboot" scheme="https://blog.520xnc.cn/tags/srpingboot/"/>
+    
+      <category term="springcloud" scheme="https://blog.520xnc.cn/tags/springcloud/"/>
     
   </entry>
   
