@@ -133,11 +133,11 @@
     </summary>
     
     
+      <category term="java" scheme="https://blog.520xnc.cn/tags/java/"/>
+    
       <category term="Linux" scheme="https://blog.520xnc.cn/tags/Linux/"/>
     
       <category term="堆栈" scheme="https://blog.520xnc.cn/tags/%E5%A0%86%E6%A0%88/"/>
-    
-      <category term="java" scheme="https://blog.520xnc.cn/tags/java/"/>
     
       <category term="mysql" scheme="https://blog.520xnc.cn/tags/mysql/"/>
     
@@ -226,6 +226,35 @@
       <category term="srpingboot" scheme="https://blog.520xnc.cn/tags/srpingboot/"/>
     
       <category term="springcloud" scheme="https://blog.520xnc.cn/tags/springcloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java并发优化</title>
+    <link href="https://blog.520xnc.cn/2017/09/11/20170911094730/"/>
+    <id>https://blog.520xnc.cn/2017/09/11/20170911094730/</id>
+    <published>2017-09-11T01:47:30.000Z</published>
+    <updated>2019-09-11T01:50:18.441Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="http://img.520xnc.cn/blog/%E5%B9%B6%E5%8F%91%E4%BC%98%E5%8C%96.png" alt="image"></p><p>ConcurrentHashMap</p><p>内部使用分区Segment来表示不同的部分, 每个分区其实就是一个小的hashtable. 各自有自己的锁. </p><p>只要多个修改发生在不同的分区, 他们就可以并发的进行.</p><p>把一个整体分成了16个Segment, 最高支持16个线程并发修改. </p><p>代码中运用了很多volatile声明共享变量, 第一时间获取修改的内容, 性能较好.</p><h4 id="读写分离锁替代独占锁"><a href="#读写分离锁替代独占锁" class="headerlink" title="读写分离锁替代独占锁"></a>读写分离锁替代独占锁</h4><p>顾名思义, 用ReadWriteLock将读写的锁分离开来, 尤其在读多写少的场合, 可以有效提升系统的并发能力.</p><p>读-读不互斥：读读之间不阻塞。</p><p>读-写互斥：读阻塞写，写也会阻塞读。</p><p>写-写互斥：写写阻塞</p><h4 id="锁分离"><a href="#锁分离" class="headerlink" title="锁分离"></a>锁分离</h4><p>在读写锁的思想上做进一步的延伸, 根据不同的功能拆分不同的锁, 进行有效的锁分离.</p><p>一个典型的示例便是LinkedBlockingQueue,在它内部, take和put操作本身是隔离的, </p><p>有若干个元素的时候, 一个在queue的头部操作, 一个在queue的尾部操作, 因此分别持有一把独立的锁.</p><h4 id="锁粗化"><a href="#锁粗化" class="headerlink" title="锁粗化"></a>锁粗化</h4><p>通常情况下, 为了保证多线程间的有效并发, 会要求每个线程持有锁的时间尽量短, </p><p>即在使用完公共资源后, 应该立即释放锁. 只有这样, 等待在这个锁上的其他线程才能尽早的获得资源执行任务.</p><p>而凡事都有一个度, 如果对同一个锁不停的进行请求 同步和释放, 其本身也会消耗系统宝贵的资源, 反而不利于性能的优化</p><h4 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h4><p>除了控制有限资源访问外, 我们还可以增加资源来保证对象线程安全.</p><p>对于一些线程不安全的对象, 例如SimpleDateFormat, 与其加锁让100个线程来竞争获取, </p><p>不如准备100个SimpleDateFormat, 每个线程各自为营, 很快的完成format工作.</p><h5 id="ThreadLocal原理"><a href="#ThreadLocal原理" class="headerlink" title="ThreadLocal原理"></a>ThreadLocal原理</h5><p>对于set方法, 先获取当前线程对象, 然后getMap()获取线程的ThreadLocalMap, 并将值放入map中.</p><p>该map是线程Thread的内部变量, 其key为threadlocal, vaule为我们set进去的值.</p><p>对于get方法, 自然是先拿到map, 然后从map中获取数据.</p><p>手动释放: 调用threadlocal.set(null)或者threadlocal.remove()即可</p><p>自动释放: 关闭线程池, 线程结束后, 自动释放threadlocalmap.</p><p>内存泄露主要出现在无法关闭的线程中, 例如web容器提供的并发线程池, 线程都是复用的.<br>Controller 中使用一定要手动释放，否则可能会出现内存泄漏</p><p>不管threadlocal是static还是非static的, 都要像加锁解锁一样, 每次用完后, 手动清理, 释放对象.</p><h4 id="无锁"><a href="#无锁" class="headerlink" title="无锁"></a>无锁</h4><p>与锁相比, 使用CAS操作, 由于其非阻塞性, 因此不存在死锁问题, 同时线程之间的相互影响, </p><p>也远小于锁的方式. 使用无锁的方案, 可以减少锁竞争以及线程频繁调度带来的系统开销.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;img src=&quot;http://img.520xnc.cn/blog/%E5%B9%B6%E5%8F%91%E4%BC%98%E5%8C%96.png&quot; alt=&quot;image&quot;&gt;&lt;/p&gt;
+&lt;p&gt;ConcurrentHashMap&lt;/p&gt;
+&lt;p&gt;内部使用分区Segment来
+      
+    
+    </summary>
+    
+    
+      <category term="java" scheme="https://blog.520xnc.cn/tags/java/"/>
+    
+      <category term="基础" scheme="https://blog.520xnc.cn/tags/%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="并发" scheme="https://blog.520xnc.cn/tags/%E5%B9%B6%E5%8F%91/"/>
     
   </entry>
   
