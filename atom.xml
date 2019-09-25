@@ -334,6 +334,29 @@
   </entry>
   
   <entry>
+    <title>notepad++数据库中的‘_’替换为驼峰</title>
+    <link href="https://blog.520xnc.cn/2015/04/20/20150420144522/"/>
+    <id>https://blog.520xnc.cn/2015/04/20/20150420144522/</id>
+    <published>2015-04-20T06:45:22.000Z</published>
+    <updated>2019-09-25T05:37:56.026Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="mysql数据库中的“—“-替换为驼峰"><a href="#mysql数据库中的“—“-替换为驼峰" class="headerlink" title="mysql数据库中的“—“ 替换为驼峰"></a>mysql数据库中的“—“ 替换为驼峰</h4><p>1、ctrl+a全选，ctrl+U全部替换大小写；</p><p>2、ctrl+F 找到替换；</p><p>3、查找输入框中输入正则表达式([a-z])_([a-z])</p><p>4、替换值处输入\1\U\2\E</p><p>5、查找模式选择正则；</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;mysql数据库中的“—“-替换为驼峰&quot;&gt;&lt;a href=&quot;#mysql数据库中的“—“-替换为驼峰&quot; class=&quot;headerlink&quot; title=&quot;mysql数据库中的“—“ 替换为驼峰&quot;&gt;&lt;/a&gt;mysql数据库中的“—“ 替换为驼峰&lt;/h4&gt;&lt;p&gt;1、
+      
+    
+    </summary>
+    
+    
+      <category term="mysql" scheme="https://blog.520xnc.cn/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
     <title>AB压力测试工具的使用</title>
     <link href="https://blog.520xnc.cn/2015/04/15/20150415143635/"/>
     <id>https://blog.520xnc.cn/2015/04/15/20150415143635/</id>
