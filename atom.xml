@@ -259,6 +259,29 @@
   </entry>
   
   <entry>
+    <title>git全局邮箱和用户名设置</title>
+    <link href="https://blog.520xnc.cn/2016/10/06/20161006104721/"/>
+    <id>https://blog.520xnc.cn/2016/10/06/20161006104721/</id>
+    <published>2016-10-06T02:47:21.000Z</published>
+    <updated>2019-10-06T02:51:24.047Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="git-设置全局邮箱和用户名"><a href="#git-设置全局邮箱和用户名" class="headerlink" title="git 设置全局邮箱和用户名"></a>git 设置全局邮箱和用户名</h4><p>git config user.name or user.email 查看用户名和邮箱</p><p>git config user.name xx 设置用户名</p><p>git config user.email xx@xx 设置邮箱</p><h4 id="git忽略ssl认证"><a href="#git忽略ssl认证" class="headerlink" title="git忽略ssl认证"></a>git忽略ssl认证</h4><p>git config http.sslVerify “false” </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;git-设置全局邮箱和用户名&quot;&gt;&lt;a href=&quot;#git-设置全局邮箱和用户名&quot; class=&quot;headerlink&quot; title=&quot;git 设置全局邮箱和用户名&quot;&gt;&lt;/a&gt;git 设置全局邮箱和用户名&lt;/h4&gt;&lt;p&gt;git config user.name o
+      
+    
+    </summary>
+    
+    
+      <category term="git" scheme="https://blog.520xnc.cn/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
     <title>G1算法与CMS算法的区别</title>
     <link href="https://blog.520xnc.cn/2016/09/11/20160911101616/"/>
     <id>https://blog.520xnc.cn/2016/09/11/20160911101616/</id>
@@ -310,6 +333,29 @@
   </entry>
   
   <entry>
+    <title>notepad++数据库中的‘_’替换为驼峰</title>
+    <link href="https://blog.520xnc.cn/2015/04/20/20150420144522/"/>
+    <id>https://blog.520xnc.cn/2015/04/20/20150420144522/</id>
+    <published>2015-04-20T06:45:22.000Z</published>
+    <updated>2019-09-25T05:37:56.026Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="mysql数据库中的“—“-替换为驼峰"><a href="#mysql数据库中的“—“-替换为驼峰" class="headerlink" title="mysql数据库中的“—“ 替换为驼峰"></a>mysql数据库中的“—“ 替换为驼峰</h4><p>1、ctrl+a全选，ctrl+U全部替换大小写；</p><p>2、ctrl+F 找到替换；</p><p>3、查找输入框中输入正则表达式([a-z])_([a-z])</p><p>4、替换值处输入\1\U\2\E</p><p>5、查找模式选择正则；</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;mysql数据库中的“—“-替换为驼峰&quot;&gt;&lt;a href=&quot;#mysql数据库中的“—“-替换为驼峰&quot; class=&quot;headerlink&quot; title=&quot;mysql数据库中的“—“ 替换为驼峰&quot;&gt;&lt;/a&gt;mysql数据库中的“—“ 替换为驼峰&lt;/h4&gt;&lt;p&gt;1、
+      
+    
+    </summary>
+    
+    
+      <category term="mysql" scheme="https://blog.520xnc.cn/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Mybatis高级用法</title>
     <link href="https://blog.520xnc.cn/2015/04/20/20150420144522/"/>
     <id>https://blog.520xnc.cn/2015/04/20/20150420144522/</id>
@@ -330,29 +376,6 @@
     
     
       <category term="mybatis" scheme="https://blog.520xnc.cn/tags/mybatis/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>notepad++数据库中的‘_’替换为驼峰</title>
-    <link href="https://blog.520xnc.cn/2015/04/20/20150420144522/"/>
-    <id>https://blog.520xnc.cn/2015/04/20/20150420144522/</id>
-    <published>2015-04-20T06:45:22.000Z</published>
-    <updated>2019-09-25T05:37:56.026Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="mysql数据库中的“—“-替换为驼峰"><a href="#mysql数据库中的“—“-替换为驼峰" class="headerlink" title="mysql数据库中的“—“ 替换为驼峰"></a>mysql数据库中的“—“ 替换为驼峰</h4><p>1、ctrl+a全选，ctrl+U全部替换大小写；</p><p>2、ctrl+F 找到替换；</p><p>3、查找输入框中输入正则表达式([a-z])_([a-z])</p><p>4、替换值处输入\1\U\2\E</p><p>5、查找模式选择正则；</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h4 id=&quot;mysql数据库中的“—“-替换为驼峰&quot;&gt;&lt;a href=&quot;#mysql数据库中的“—“-替换为驼峰&quot; class=&quot;headerlink&quot; title=&quot;mysql数据库中的“—“ 替换为驼峰&quot;&gt;&lt;/a&gt;mysql数据库中的“—“ 替换为驼峰&lt;/h4&gt;&lt;p&gt;1、
-      
-    
-    </summary>
-    
-    
-      <category term="mysql" scheme="https://blog.520xnc.cn/tags/mysql/"/>
     
   </entry>
   
